@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ede6df" />
+    <meta
+      name="description"
+      content="Retratos, encontros e histórias fotografadas por Barbara Jorge."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Galeria | Barbara Jorge</title>
+  </head>
+  <body>
+    <site-header active="galeria"></site-header>
+    <main class="gallery-page" x-data="portfolioGallery">
+      <header class="page-intro page-wrap">
+        <p class="eyebrow">Um arquivo de encontros</p>
+        <h1>Imagens que<br /><em>continuam com a gente.</em></h1>
+        <p>Pequenos fragmentos de histórias reais, vistos com cuidado.</p>
+      </header>
+      <section
+        class="gallery-content page-wrap"
+        aria-label="Galeria de fotografias"
+      >
+        <div class="gallery-toolbar">
+          <div
+            class="gallery-filters"
+            role="group"
+            aria-label="Filtrar fotografias por categoria"
+          >
+            <template x-for="category in categories" :key="category">
+              <button
+                type="button"
+                class="filter-button"
+                :class="{ 'is-active': activeCategory === category }"
+                @click="activeCategory = category"
+                x-text="category"
+              ></button>
+            </template>
+          </div>
+          <span
+            class="gallery-count"
+            x-text="`${visibleItems.length} histórias`"
+          ></span>
+        </div>
+        <div class="gallery-grid">
+          <template x-for="(item, index) in visibleItems" :key="item.id">
+            <button
+              type="button"
+              class="gallery-item"
+              :class="`gallery-item--${(index % 5) + 1}`"
+              @click="openItem(item)"
+              :aria-label="`Ampliar foto: ${item.title}`"
+            >
+              <img
+                :src="item.imageUrl"
+                :alt="item.alt || item.title"
+                loading="lazy"
+              />
+              <span class="gallery-item__caption"
+                ><span x-text="item.title"></span
+                ><small x-text="item.category"></small
+              ></span>
+            </button>
+          </template>
+        </div>
+        <p class="image-credit-note" x-show="usingPlaceholders">
+          Imagens provisórias para composição · substitua pela seleção autoral
+          no painel administrativo.
+        </p>
+      </section>
+      <div
+        class="lightbox"
+        x-cloak
+        x-show="selectedItem"
+        x-transition.opacity
+        @keydown.escape.window="selectedItem = null"
+        @click.self="selectedItem = null"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Fotografia ampliada"
+      >
+        <button
+          class="lightbox__close"
+          type="button"
+          aria-label="Fechar fotografia"
+          @click="selectedItem = null"
+        >
+          ×
+        </button>
+        <template x-if="selectedItem"
+          ><figure>
+            <img
+              :src="selectedItem.imageUrl"
+              :alt="selectedItem.alt || selectedItem.title"
+            />
+            <figcaption>
+              <span x-text="selectedItem.title"></span
+              ><small x-text="selectedItem.category"></small>
+            </figcaption></figure
+        ></template>
+      </div>
+    </main>
+    <site-footer></site-footer>
+    <script type="module" src="/src/gallery.ts"></script>
+  </body>
+</html>

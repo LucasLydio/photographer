@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ede6df" />
+    <meta
+      name="description"
+      content="Fotografia autoral de Barbara Jorge. Retratos, casamentos e histórias contadas com leveza e verdade."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Barbara Jorge | Fotografia com verdade</title>
+  </head>
+  <body>
+    <site-header active="inicio"></site-header>
+    <main>
+      <section class="hero page-wrap" aria-labelledby="hero-title">
+        <div class="hero__copy" x-data="reveal">
+          <p class="eyebrow" x-show="visible" x-transition.opacity>
+            Fotografia por Barbara Jorge
+          </p>
+          <h1 id="hero-title">
+            A beleza mora<br />no <em>que é de verdade.</em>
+          </h1>
+          <p class="hero__intro">
+            Imagens para guardar o que o tempo não consegue repetir. Retratos,
+            encontros e histórias feitas com calma.
+          </p>
+          <a class="button button--dark" href="gallery.html"
+            >Explore meu olhar <span aria-hidden="true">↗</span></a
+          >
+          <p class="hero__signature">Com presença, Barbara</p>
+        </div>
+        <div class="hero__portrait-wrap">
+          <div class="hero__portrait-frame">
+            <img
+              class="hero__portrait"
+              src="/assets/barbara4.webp"
+              alt="Barbara com sua câmera, em um retrato espontâneo"
+            />
+          </div>
+          <p class="hero__image-note">
+            um pouco de mim, por aqui <span aria-hidden="true">↙</span>
+          </p>
+          <span class="hero__index" aria-hidden="true">01 — 04</span>
+        </div>
+        <a class="hero__scroll" href="#manifesto"
+          ><span></span> Desça para sentir</a
+        >
+      </section>
+
+      <section id="manifesto" class="manifesto">
+        <div class="manifesto__inner page-wrap">
+          <p class="eyebrow">Mais do que fotografar</p>
+          <h2>Eu gosto de histórias que <em>não precisam posar.</em></h2>
+          <p>
+            Um gesto distraído, a luz no fim da tarde, o abraço que dura um
+            segundo a mais. Meu trabalho é estar perto o bastante para perceber
+            e leve o bastante para deixar acontecer.
+          </p>
+          <a class="text-link" href="services.html"
+            >Vamos imaginar juntas <span aria-hidden="true">↗</span></a
+          >
+        </div>
+      </section>
+
+      <section
+        class="home-gallery page-wrap"
+        aria-labelledby="home-gallery-title"
+      >
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Histórias recentes</p>
+            <h2 id="home-gallery-title">Um olhar de cada vez</h2>
+          </div>
+          <a class="text-link" href="gallery.html"
+            >Ver galeria completa <span aria-hidden="true">↗</span></a
+          >
+        </div>
+        <div class="home-gallery__grid">
+          <a
+            class="photo-tile photo-tile--large"
+            href="gallery.html"
+            aria-label="Ver galeria de retratos"
+          >
+            <img
+              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1100&q=85"
+              alt="Retrato feminino em luz natural"
+              loading="lazy"
+            />
+            <span>Retratos <small>01</small></span>
+          </a>
+          <a
+            class="photo-tile"
+            href="gallery.html"
+            aria-label="Ver galeria de casamentos"
+          >
+            <img
+              src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=85"
+              alt="Casal celebrando ao ar livre"
+              loading="lazy"
+            />
+            <span>Encontros <small>02</small></span>
+          </a>
+          <a
+            class="photo-tile"
+            href="gallery.html"
+            aria-label="Ver galeria de momentos"
+          >
+            <img
+              src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=85"
+              alt="Celebração íntima entre amigos"
+              loading="lazy"
+            />
+            <span>Celebrar <small>03</small></span>
+          </a>
+        </div>
+        <p class="image-credit-note">
+          Seleção visual provisória · imagens autorais serão adicionadas por
+          Barbara.
+        </p>
+      </section>
+
+      <section class="contact-band">
+        <div class="page-wrap contact-band__inner">
+          <p class="eyebrow">O próximo capítulo pode ser seu</p>
+          <h2>Tem uma história<br />que merece <em>ser lembrada?</em></h2>
+          <a
+            class="button button--light"
+            href="https://www.instagram.com/bybarbarajorge/"
+            target="_blank"
+            rel="noreferrer"
+            >Me conte no Instagram <span aria-hidden="true">↗</span></a
+          >
+        </div>
+      </section>
+    </main>
+    <site-footer></site-footer>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

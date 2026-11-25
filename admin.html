@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ede6df" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Painel da fotógrafa | Barbara Jorge</title>
+  </head>
+  <body class="admin-body" x-data="adminPanel" x-init="init()">
+    <main class="admin-layout">
+      <a class="admin-back" href="/">← Voltar ao site</a>
+      <section
+        class="admin-login"
+        x-show="!authenticated"
+        x-cloak
+        aria-labelledby="login-title"
+      >
+        <a class="brand" href="/"
+          ><span class="brand__name">Bárbara Jorge</span
+          ><span class="brand__role">Fotografia</span></a
+        >
+        <p class="eyebrow">Área reservada</p>
+        <h1 id="login-title">Bom ter você<br /><em>por aqui.</em></h1>
+        <p class="admin-lede">Entre para organizar as histórias da galeria.</p>
+        <form class="admin-form" @submit.prevent="signIn()">
+          <label for="email">E-mail</label>
+          <input
+            id="email"
+            class="input-field"
+            type="email"
+            x-model="email"
+            autocomplete="username"
+            required
+          />
+          <label for="password">Senha</label>
+          <input
+            id="password"
+            class="input-field"
+            type="password"
+            x-model="password"
+            autocomplete="current-password"
+            required
+          />
+          <p
+            class="form-message"
+            role="status"
+            x-show="message"
+            x-text="message"
+          ></p>
+          <button class="button button--dark" type="submit" :disabled="busy">
+            <span x-text="busy ? 'Entrando...' : 'Entrar no painel'"></span
+            ><span aria-hidden="true">↗</span>
+          </button>
+        </form>
+        <p class="admin-config-note" x-show="!configured">
+          O acesso será habilitado após configurar as variáveis públicas do
+          Supabase.
+        </p>
+      </section>
+
+      <section
+        class="admin-dashboard"
+        x-show="authenticated"
+        x-cloak
+        aria-labelledby="admin-title"
+      >
+        <header class="admin-topbar">
+          <div>
+            <p class="eyebrow">Espaço da fotógrafa</p>
+            <h1 id="admin-title">Sua galeria, <em>em movimento.</em></h1>
+          </div>
+          <button
+            class="button button--outline"
+            type="button"
+            @click="signOut()"
+          >
+            Sair
+          </button>
+        </header>
+        <div class="admin-workspace">
+          <section class="admin-editor" aria-labelledby="new-work-title">
+            <p class="eyebrow">Adicionar história</p>
+            <h2 id="new-work-title">Uma imagem nova</h2>
+            <form class="admin-form" @submit.prevent="addItem()">
+              <label for="work-title">Título</label>
+              <input
+                id="work-title"
+                class="input-field"
+                x-model="draft.title"
+                maxlength="90"
+                required
+              />
+              <label for="work-category">Categoria</label>
+              <select
+                id="work-category"
+                class="input-field"
+                x-model="draft.category"
+              >
+                <option>Retratos</option>
+                <option>Encontros</option>
+                <option>Cotidiano</option>
+                <option>Editorial</option>
+              </select>
+              <label for="work-image">URL da imagem</label>
+              <input
+                id="work-image"
+                class="input-field"
+                type="url"
+                x-model="draft.imageUrl"
+                placeholder="https://..."
+                required
+              />
+              <label for="work-alt">Descrição da imagem</label>
+              <input
+                id="work-alt"
+                class="input-field"
+                x-model="draft.alt"
+                maxlength="180"
+                required
+              />
+              <p
+                class="form-message"
+                role="status"
+                x-show="message"
+                x-text="message"
+              ></p>
+              <button
+                class="button button--dark"
+                type="submit"
+                :disabled="busy"
+              >
+                <span
+                  x-text="busy ? 'Salvando...' : 'Publicar na galeria'"
+                ></span
+                ><span aria-hidden="true">↗</span>
+              </button>
+            </form>
+          </section>
+          <section class="admin-inventory" aria-labelledby="inventory-title">
+            <div class="admin-inventory__heading">
+              <div>
+                <p class="eyebrow">Trabalhos publicados</p>
+                <h2 id="inventory-title">
+                  Na galeria <span x-text="`(${items.length})`"></span>
+                </h2>
+              </div>
+              <button
+                type="button"
+                class="icon-button"
+                @click="loadItems()"
+                aria-label="Atualizar galeria"
+                title="Atualizar"
+              >
+                ↻
+              </button>
+            </div>
+            <p class="admin-empty" x-show="items.length === 0">
+              Ainda não há imagens cadastradas. Adicione a primeira história ao
+              lado.
+            </p>
+            <ul class="admin-item-list">
+              <template x-for="item in items" :key="item.id">
+                <li class="admin-item">
+                  <img
+                    :src="item.imageUrl"
+                    :alt="item.alt || item.title"
+                    loading="lazy"
+                  />
+                  <div class="admin-item__details">
+                    <strong x-text="item.title"></strong
+                    ><span x-text="item.category"></span>
+                  </div>
+                  <button
+                    class="icon-button icon-button--danger"
+                    type="button"
+                    @click="removeItem(item)"
+                    :aria-label="`Remover ${item.title}`"
+                    title="Remover"
+                  >
+                    ×
+                  </button>
+                </li>
+              </template>
+            </ul>
+          </section>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="/src/admin.ts"></script>
+  </body>
+</html>
